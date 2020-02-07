@@ -18,7 +18,6 @@ namespace ActualMop
         Transform itemPivot;
 
         float lastUrineValue;
-        bool isHeld;
 
         // Import the user32.dll
         [DllImport("user32.dll", SetLastError = true)]
@@ -64,6 +63,7 @@ namespace ActualMop
                 ToggleCleaningMode(true);
 
                 // Simulate the P key press
+                // Player HAS to have pissing button binded to P
                 keybd_event(VK_RCONTROL, 0, KEYEVENTF_EXTENDEDKEY, 0);
                 keybd_event(VK_RCONTROL, 0, KEYEVENTF_KEYUP, 0);
 
@@ -78,19 +78,21 @@ namespace ActualMop
 
         void ToggleCleaningMode(bool enabled)
         {
+            // Ignore if PissRate is already set to < 0 and enabled == true
             if (enabled && pissAreas.FsmVariables.FindFsmFloat("PissRate").Value < 0)
                 return;
 
+            // Ignore if PissRate is set to > 0 and enabled == false
             if (!enabled && pissAreas.FsmVariables.FindFsmFloat("PissRate").Value > 0)
                 return;
 
+            // Multiple the PissRate by -1, so it will decrease/increase the piss stain.
             pissAreas.FsmVariables.FindFsmFloat("PissRate").Value *= -1;
-            isHeld = enabled;
-            pissRenderer.enabled = !enabled;
 
             if (enabled)
             {
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
+                pissRenderer.enabled = !enabled;
             }
             else
             {
@@ -98,6 +100,12 @@ namespace ActualMop
             }
         }
 
+        /// <summary>
+        /// Used when player drops the mop.
+        /// Sets the PlayerUrine value to 0, so the player stops pissing, waits a single frame,
+        /// then resets PlayerUrine to lastUrineValue, and reenables pissRenderer
+        /// </summary>
+        /// <returns></returns>
         IEnumerator DisableRoutine()
         {
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = 0;
@@ -109,6 +117,10 @@ namespace ActualMop
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerDirtiness").Value -= 5;
         }
 
+        /// <summary>
+        /// Generates the game save info
+        /// </summary>
+        /// <returns></returns>
         public MopSaveData GetSaveInfo()
         {
             return new MopSaveData(transform.position, transform.rotation);

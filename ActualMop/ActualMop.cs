@@ -16,6 +16,7 @@ namespace ActualMop
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => true;
 
+        // Mop object
         GameObject mop;
 
         // Called once, when mod is loading after game is fully loaded
@@ -27,8 +28,9 @@ namespace ActualMop
             mop = GameObject.Instantiate<GameObject>(originalMop);
             ab.Unload(false);
 
+            // Add MopBehaviour component
             MopBehaviour behaviour = mop.AddComponent<MopBehaviour>();
-            
+
             // Load save data
             MopSaveData mopSaveData = SaveLoad.DeserializeSaveFile<MopSaveData>(this, "mop.cfg");
             if (mopSaveData != null)
