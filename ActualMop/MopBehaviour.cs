@@ -67,7 +67,8 @@ namespace ActualMop
                 keybd_event(VK_RCONTROL, 0, KEYEVENTF_EXTENDEDKEY, 0);
                 keybd_event(VK_RCONTROL, 0, KEYEVENTF_KEYUP, 0);
 
-                PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue;
+                // Hold the urine level
+                PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;
             }
             else
             { 
