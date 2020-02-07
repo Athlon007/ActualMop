@@ -60,13 +60,30 @@ namespace ActualMop
 
         // ayy, lmao
 
+        Settings resetPosition = new Settings("resetMopPosition", "Reset Mop Positon", ResetMopPosition);
+
+        // Default header color
         readonly Color32 headerColor = new Color32(7, 142, 181, 255);
 
         public override void ModSettings()
         {
+            Settings.AddButton(this, resetPosition);
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
             Settings.AddText(this, Properties.Resources.changelog);
+        }
+
+        /// <summary>
+        /// Resets mop position
+        /// </summary>
+        static void ResetMopPosition()
+        {
+            if (Application.loadedLevelName == "GAME")
+            {
+                GameObject mop = GameObject.Find("mop(Clone)");
+                mop.transform.position = MopBehaviour.DefaultPosition;
+                mop.transform.rotation = new Quaternion();
+            }
         }
     }
 }

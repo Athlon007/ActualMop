@@ -22,7 +22,7 @@ namespace ActualMop
 {
     class MopBehaviour : MonoBehaviour
     {
-        public static Vector3 DefaultPosition =new Vector3(-12.8f, 0.2f, 2.4f);
+        public static Vector3 DefaultPosition =new Vector3(-13.5f, -0.6f, 2.8f);
 
         PlayMakerFSM pissAreas;
         ParticleRenderer pissRenderer;
