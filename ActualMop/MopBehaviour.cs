@@ -62,9 +62,12 @@ namespace ActualMop
             if (transform.parent == itemPivot)
             {
                 ToggleCleaningMode(true);
+
+                // Simulate the P key press
                 keybd_event(VK_RCONTROL, 0, KEYEVENTF_EXTENDEDKEY, 0);
                 keybd_event(VK_RCONTROL, 0, KEYEVENTF_KEYUP, 0);
-                PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = 1;
+
+                PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue;
             }
             else
             { 
@@ -100,6 +103,9 @@ namespace ActualMop
             yield return null;
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue;
             pissRenderer.enabled = true;
+
+            // Remove the dirtiness given by the game for finishing pissing
+            PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerDirtiness").Value -= 5;
         }
 
         public MopSaveData GetSaveInfo()
