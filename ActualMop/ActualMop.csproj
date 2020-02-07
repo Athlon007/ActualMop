@@ -58,7 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActualMop.cs" />
-    <Compile Include="Mop.cs" />
+    <Compile Include="MopBehaviour.cs" />
+    <Compile Include="MopSaveData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
