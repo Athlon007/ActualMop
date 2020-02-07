@@ -57,5 +57,16 @@ namespace ActualMop
         {
             SaveLoad.SerializeSaveFile(this, mop.GetComponent<MopBehaviour>().GetSaveInfo(), "mop.cfg");
         }
+
+        // ayy, lmao
+
+        readonly Color32 headerColor = new Color32(7, 142, 181, 255);
+
+        public override void ModSettings()
+        {
+            // Changelog
+            Settings.AddHeader(this, "Changelog", headerColor);
+            Settings.AddText(this, Properties.Resources.changelog);
+        }
     }
 }

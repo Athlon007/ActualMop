@@ -11,7 +11,8 @@ Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains
 ## Requirements
 
 - My Summer Car (newest release)
-- [MSC Mod Loader 1.1.4](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
+- [MSC Mod Loader 1.1.5](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
+- Windows operating system (this mod will not work on macOS or Linux, due to required Windows API)
 
 ## Installation
 
@@ -27,6 +28,10 @@ You can find your mop in the washing machine room (between kitchen and bathroom)
 ## License
 
 This program is distributed under GNU General Public License v3. Feel free to use its source code as long as you mention the author and state the changes. You can also modify, share and distribute it, as long as you state changes. For more, see [LICENSE](LICENSE.md) file.
+
+## Credits
+
+- [BrennFuchS](https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - mop model
 
 ## Support
 

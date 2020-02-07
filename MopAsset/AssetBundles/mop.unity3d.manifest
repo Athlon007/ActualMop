@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3900304959
+CRC: 1604595075
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1ca3b106a3cd7c0aee784fd423d43825
+    Hash: 6544b670834956e56452b9837d38378e
   TypeTreeHash:
     serializedVersion: 2
     Hash: c9f4c416f9dc0b201b97a384c7e3e192
@@ -32,8 +32,7 @@ ClassTypes:
 - Class: 65
   Script: {instanceID: 0}
 Assets:
-- Assets/mopModel.fbx
-- Assets/newMop.fbm
+- Assets/mopNew.fbx
 - Assets/mopModel.fbm
 - Assets/mop.prefab
 Dependencies: []
