@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace ActualMop
 {
@@ -12,7 +9,8 @@ namespace ActualMop
 
         public MopSaveData()
         {
-
+            this.Position = MopBehaviour.DefaultPosition;
+            this.Rotation = new Quaternion();
         }
 
         public MopSaveData(Vector3 position, Quaternion rotation)

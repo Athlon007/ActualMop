@@ -11,11 +11,11 @@ namespace ActualMop
 {
     class MopBehaviour : MonoBehaviour
     {
+        public static Vector3 DefaultPosition =new Vector3(-12.8f, 0.2f, 2.4f);
+
         PlayMakerFSM pissAreas;
         ParticleRenderer pissRenderer;
         Transform itemPivot;
-
-        Rigidbody rb;
 
         float lastUrineValue;
         bool isHeld;
@@ -26,9 +26,9 @@ namespace ActualMop
 
         // Declare some keyboard keys as constants with its respective code
         // See Virtual Code Keys: https://msdn.microsoft.com/en-us/library/dd375731(v=vs.85).aspx
-        public const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
-        public const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
-        public const int VK_RCONTROL = 0x50; // P key
+        const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
+        const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
+        const int VK_RCONTROL = 0x50; // P key
 
         public MopBehaviour()
         {
@@ -47,7 +47,14 @@ namespace ActualMop
 
             // Get item pivot
             itemPivot = GameObject.Find("PLAYER").transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
-            //rb = GetComponent<Rigidbody>();
+            GetComponent<Rigidbody>().isKinematic = false;
+            transform.position = DefaultPosition;
+        }
+
+        public void Initialize(MopSaveData mopSaveData)
+        {
+            transform.position = mopSaveData.Position;
+            transform.rotation = mopSaveData.Rotation;
         }
 
         void Update()
@@ -75,12 +82,11 @@ namespace ActualMop
 
             pissAreas.FsmVariables.FindFsmFloat("PissRate").Value *= -1;
             isHeld = enabled;
+            pissRenderer.enabled = !enabled;
 
             if (enabled)
             {
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
-                pissRenderer.enabled = !enabled;
-                //rb.freezeRotation = true;
             }
             else
             {
@@ -91,7 +97,7 @@ namespace ActualMop
         IEnumerator DisableRoutine()
         {
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = 0;
-            yield return new WaitForSeconds(1);
+            yield return null;
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue;
             pissRenderer.enabled = true;
         }
