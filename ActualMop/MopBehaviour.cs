@@ -1,11 +1,22 @@
-﻿using System;
+﻿// Actual Mop
+// Copyright(C) 2020 Athlon
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using UnityEngine;
-using HutongGames.PlayMaker;
 
 namespace ActualMop
 {
@@ -27,7 +38,7 @@ namespace ActualMop
         // See Virtual Code Keys: https://msdn.microsoft.com/en-us/library/dd375731(v=vs.85).aspx
         const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
         const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
-        const int VK_RCONTROL = 0x50; // P key
+        const int VK_P = 0x50; // P key
 
         public MopBehaviour()
         {
@@ -64,8 +75,8 @@ namespace ActualMop
 
                 // Simulate the P key press
                 // Player HAS to have pissing button binded to P
-                keybd_event(VK_RCONTROL, 0, KEYEVENTF_EXTENDEDKEY, 0);
-                keybd_event(VK_RCONTROL, 0, KEYEVENTF_KEYUP, 0);
+                keybd_event(VK_P, 0, KEYEVENTF_EXTENDEDKEY, 0);
+                keybd_event(VK_P, 0, KEYEVENTF_KEYUP, 0);
 
                 // Hold the urine level
                 PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;
