@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/v/release/Athlon007/ActualMop?include_prereleases&label=Development&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/ActualMop?style=for-the-badge)](LICENSE.md)
 
-<img align="right" src="images/icon_small.png" alt="icon" width=128 />
+<img align="right" src="Media/images/icon_small.png" alt="icon" width=128 />
 
 Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains in your home!
 
