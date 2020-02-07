@@ -3,9 +3,11 @@
 Visit GitHub repository for newest updates, previews and changelogs!
 https://github.com/Athlon007/ActualMop
 
-Download the newest update from GitHub relase page!
+Download the newest update from GitHub relase page, RaceDepartment or NexusMods!
 
 GitHub: https://github.com/Athlon007/ActualMop/releases
+RaceDepartment: https://www.racedepartment.com/downloads/actual-mop.30820/
+NexusMods: https://www.nexusmods.com/mysummercar/mods/163
 
 
 # INSTALLATION #

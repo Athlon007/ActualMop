@@ -15,13 +15,13 @@ Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains
 
 ## Installation
 
-Grab the mod from [releases page](https://github.com/Athlon007/MOP/releases), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
+Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/163), [RaceDepartment](https://www.racedepartment.com/downloads/actual-mop.30820/) or [releases page](https://github.com/Athlon007/MOP/releases), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
 
 You can find your mop in the washing machine room (between kitchen and bathroom).
 
 ## Known issues
 
-* Player haas to have the pissing button binded to P, otherwise the mod will not work
+* Player has to have the pissing button binded to P, otherwise the mod will not work
 * Player may need to drop and grab the mop again, in order to it work when moving between rooms
 
 ## License
