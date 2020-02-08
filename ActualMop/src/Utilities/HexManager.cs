@@ -21,15 +21,19 @@ namespace ActualMop
 {
     class HexManager
     {
+        // This class manages the hexadecimal values corresponding to appropriate keyboard keys.
+        // See Virtual Code Keys: https://msdn.microsoft.com/en-us/library/dd375731(v=vs.85).aspx
+
         public static HexManager instance;
 
         Dictionary<string, byte> keys;
+        const byte VK_DEFAULT = 0x50; // P key
 
         public HexManager()
         {
             instance = this;
 
-            // Initialize the list
+            // Initialize and populate the dictionary
             keys = new Dictionary<string, byte>();
             keys.Add("0", 0x30);
             keys.Add("1", 0x31);
@@ -70,9 +74,8 @@ namespace ActualMop
         }
 
         /// <summary>
-        /// Finds and returns currently binded key to urinating
+        /// Returns currently binded key to urinating
         /// </summary>
-        /// <returns></returns>
         string GetCurrentlyBindedButton()
         {
             return cInput.GetText("Urinate");
@@ -81,28 +84,33 @@ namespace ActualMop
         /// <summary>
         /// Returns the hexadecimal value corresponding to currently binded button for urinating
         /// </summary>
-        /// <returns></returns>
         public byte GetHex()
         {
-            string letter = GetCurrentlyBindedButton();
-            if (!IsValidKey(letter))
+            string bind = GetCurrentlyBindedButton();
+            
+            // Test if binded is valid 
+            // Return default value (P) if invalid
+            if (!IsValidKey(bind))
             {
                 MSCLoader.ModConsole.Print("[Actual Mop] Urinate key has to be binded to letter or a number on the keyboard!");
-                // Return default value (P) if invalid
-                return 0x50;
+                return VK_DEFAULT;
             }
 
-            return keys.First(t => t.Key == letter).Value;
+            return keys.First(t => t.Key == bind).Value;
         }
 
-        bool IsValidKey(string text)
+        /// <summary>
+        /// Checks if the bind is a valid key.
+        /// Bind has to be not longer than 1 character, and has to be digit or letter.
+        /// </summary>
+        bool IsValidKey(string bind)
         {
             // Binded key is too long for a number or character
-            if (text.Length > 1)
+            if (bind.Length > 1)
                 return false;
 
             // Char has to be a digit or letter
-            char c = text.ToCharArray()[0];
+            char c = bind.ToCharArray()[0];
             return char.IsLetter(c) || char.IsDigit(c);
         }
     }

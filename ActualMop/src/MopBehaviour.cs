@@ -22,15 +22,18 @@ namespace ActualMop
 {
     class MopBehaviour : MonoBehaviour
     {
-        public static Vector3 DefaultPosition =new Vector3(-13.5f, -0.6f, 2.8f);
+        public static Vector3 DefaultPosition = new Vector3(-13.5f, -0.6f, 2.8f);
 
         PlayMakerFSM pissAreas;
         ParticleRenderer pissRenderer;
         Transform itemPivot;
 
         float lastUrineValue;
+        float lastPissRate;
 
         // Import the user32.dll
+        // We're using keybd_event function in Win32 API to simulate the keyboard click
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-keybd_event
         [DllImport("user32.dll", SetLastError = true)]
         static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
@@ -38,7 +41,6 @@ namespace ActualMop
         // See Virtual Code Keys: https://msdn.microsoft.com/en-us/library/dd375731(v=vs.85).aspx
         const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
         const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
-        const int VK_P = 0x50; // P key
         byte virtualKey = 0x50;
 
         public MopBehaviour()
@@ -83,6 +85,7 @@ namespace ActualMop
 
                 // Hold the urine level
                 PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;
+                pissAreas.FsmVariables.FindFsmFloat("PissRate").Value = -400;
             }
             else
             { 
@@ -100,11 +103,12 @@ namespace ActualMop
             if (!enabled && pissAreas.FsmVariables.FindFsmFloat("PissRate").Value > 0)
                 return;
 
-            // Multiple the PissRate by -1, so it will decrease/increase the piss stain.
-            pissAreas.FsmVariables.FindFsmFloat("PissRate").Value *= -1;
-
             if (enabled)
             {
+                // Get current key binded to urinating
+                virtualKey = HexManager.instance.GetHex();
+
+                lastPissRate = pissAreas.FsmVariables.FindFsmFloat("PissRate").Value;
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
                 pissRenderer.enabled = !enabled;
             }
@@ -129,6 +133,8 @@ namespace ActualMop
 
             // Remove the dirtiness given by the game for finishing pissing
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerDirtiness").Value -= 5;
+            // Restore last PissRate value
+            pissAreas.FsmVariables.FindFsmFloat("PissRate").Value = lastPissRate;
         }
 
         /// <summary>

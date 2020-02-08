@@ -19,7 +19,6 @@ You can find your mop in the washing machine room (between kitchen and bathroom)
 
 
 # KNOWN ISSUES #
-  - Player haas to have the pissing button binded to P, otherwise the mod will not work
   - Player may need to drop and grab the mop again, in order to it work when moving between rooms
 
 

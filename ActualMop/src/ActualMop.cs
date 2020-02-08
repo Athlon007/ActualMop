@@ -24,7 +24,7 @@ namespace ActualMop
         public override string ID => "ActualMop"; //Your mod ID (unique)
         public override string Name => "Actual Mop (Beta)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "0.1"; //Version
+        public override string Version => "0.2"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -61,7 +61,6 @@ namespace ActualMop
         }
 
         // ayy, lmao
-
         Settings resetPosition = new Settings("resetMopPosition", "Reset Mop Positon", ResetMopPosition);
 
         // Default header color
@@ -83,9 +82,9 @@ namespace ActualMop
             if (Application.loadedLevelName == "GAME")
             {
                 GameObject mop = GameObject.Find("mop(Clone)");
+                mop.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 mop.transform.position = MopBehaviour.DefaultPosition;
                 mop.transform.rotation = new Quaternion();
-                mop.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
         }
     }

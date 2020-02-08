@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/v/release/Athlon007/ActualMop?include_prereleases&label=Development&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/ActualMop?style=for-the-badge)](LICENSE.md)
 
-<img align="right" src="Media/images/icon_small.png" alt="icon" width=128 />
+<img align="right" src="Media/images/icon_transparent.png" alt="icon" width=128 />
 
 Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains in your home!
 
@@ -12,7 +12,7 @@ Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains
 
 - My Summer Car (newest release)
 - [MSC Mod Loader 1.1.5](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
-- Windows operating system (this mod will not work on macOS or Linux, due to required Windows API)
+- Windows operating system (this mod will not work on macOS or Linux, due to required Win32 API)
 
 ## Installation
 
@@ -22,7 +22,6 @@ You can find your mop in the washing machine room (between kitchen and bathroom)
 
 ## Known issues
 
-* Player has to have the pissing button binded to P, otherwise the mod will not work
 * Player may need to drop and grab the mop again, in order to it work when moving between rooms
 
 ## License
