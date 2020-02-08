@@ -85,6 +85,7 @@ namespace ActualMop
                 GameObject mop = GameObject.Find("mop(Clone)");
                 mop.transform.position = MopBehaviour.DefaultPosition;
                 mop.transform.rotation = new Quaternion();
+                mop.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
         }
     }
