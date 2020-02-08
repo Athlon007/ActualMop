@@ -30,7 +30,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
 
 ## Credits
 
-- [BrennFuchS](https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - mop model
+- [BrennFuchS](https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - 3D model of the mop
 
 ## Support
 
