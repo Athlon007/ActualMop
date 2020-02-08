@@ -39,6 +39,7 @@ namespace ActualMop
         const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
         const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
         const int VK_P = 0x50; // P key
+        byte virtualKey = 0x50;
 
         public MopBehaviour()
         {
@@ -59,6 +60,8 @@ namespace ActualMop
             itemPivot = GameObject.Find("PLAYER").transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
             GetComponent<Rigidbody>().isKinematic = false;
             transform.position = DefaultPosition;
+
+            virtualKey = HexManager.instance.GetHex();
         }
 
         public void Initialize(MopSaveData mopSaveData)
@@ -75,8 +78,8 @@ namespace ActualMop
 
                 // Simulate the P key press
                 // Player HAS to have pissing button binded to P
-                keybd_event(VK_P, 0, KEYEVENTF_EXTENDEDKEY, 0);
-                keybd_event(VK_P, 0, KEYEVENTF_KEYUP, 0);
+                keybd_event(virtualKey, 0, KEYEVENTF_EXTENDEDKEY, 0);
+                keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
 
                 // Hold the urine level
                 PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;

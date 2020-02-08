@@ -36,6 +36,8 @@ namespace ActualMop
         // Called once, when mod is loading after game is fully loaded
         public override void OnLoad()
         {
+            new HexManager();
+
             // Load dem assets
             AssetBundle ab = LoadAssets.LoadBundle(this, "mop.unity3d");
             GameObject originalMop = ab.LoadAsset<GameObject>("mop.prefab");
