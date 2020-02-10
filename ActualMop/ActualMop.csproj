@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\MopManager.cs" />
     <Compile Include="src\ActualMop.cs" />
     <Compile Include="src\MopBehaviour.cs" />
     <Compile Include="src\MopSaveData.cs" />

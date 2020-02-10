@@ -24,7 +24,7 @@ namespace ActualMop
         public override string ID => "ActualMop"; //Your mod ID (unique)
         public override string Name => "Actual Mop (Beta)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "0.2"; //Version
+        public override string Version => "0.3"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.

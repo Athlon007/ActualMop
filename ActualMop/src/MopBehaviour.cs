@@ -28,6 +28,15 @@ namespace ActualMop
         ParticleRenderer pissRenderer;
         Transform itemPivot;
 
+        // Determs if player intends to use the mop
+        bool useItem;
+
+        // In hand object
+        GameObject mopInHand;
+
+        // This object's renderer
+        GameObject renderer;
+
         float lastUrineValue;
         float lastPissRate;
 
@@ -45,11 +54,15 @@ namespace ActualMop
 
         public MopBehaviour()
         {
+            mopInHand = GameObject.Instantiate(this.gameObject);
+
             // Initialize the game object
             gameObject.name = "mop(Clone)";
             gameObject.layer = LayerMask.NameToLayer("Parts");
             gameObject.tag = "PART";
             gameObject.transform.parent = null;
+
+            renderer = transform.Find("node_id4").gameObject;
 
             // Get PissAreas PlayMakerFSM
             pissAreas = GameObject.Find("PissAreas").GetComponent<PlayMakerFSM>();
@@ -64,6 +77,15 @@ namespace ActualMop
             transform.position = DefaultPosition;
 
             virtualKey = HexManager.instance.GetHex();
+
+            // Setting up in hand model
+            Object.Destroy(mopInHand.GetComponent<Rigidbody>());
+            Object.Destroy(mopInHand.GetComponent<MopBehaviour>());
+            mopInHand.name = "MopInHand";
+            mopInHand.transform.parent = GameObject.Find("PLAYER").transform.Find("Pivot/AnimPivot/Camera/FPSCamera");
+            mopInHand.transform.localPosition = new Vector3(0.25f, -0.4f, 1);
+            mopInHand.transform.localRotation = Quaternion.Euler(-80, -720, -720);
+            mopInHand.SetActive(false);
         }
 
         public void Initialize(MopSaveData mopSaveData)
@@ -74,8 +96,13 @@ namespace ActualMop
 
         void Update()
         {
-            if (transform.parent == itemPivot)
+            if (transform.parent == itemPivot && cInput.GetButtonDown("Use"))
             {
+                useItem ^= true;
+            }
+
+            if (useItem)
+            { 
                 ToggleCleaningMode(true);
 
                 // Simulate the P key press
@@ -89,6 +116,12 @@ namespace ActualMop
             }
             else
             { 
+                ToggleCleaningMode(false);
+            }
+
+            if (transform.parent != itemPivot && useItem)
+            {
+                useItem = false;
                 ToggleCleaningMode(false);
             }
         }
@@ -111,10 +144,15 @@ namespace ActualMop
                 lastPissRate = pissAreas.FsmVariables.FindFsmFloat("PissRate").Value;
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
                 pissRenderer.enabled = !enabled;
+
+                mopInHand.SetActive(true);
+                renderer.SetActive(false);
             }
             else
             {
                 StartCoroutine(DisableRoutine());
+                mopInHand.SetActive(false);
+                renderer.SetActive(true);
             }
         }
 
