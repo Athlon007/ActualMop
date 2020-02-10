@@ -21,13 +21,11 @@ You can find your mop in the washing machine room (between kitchen and bathroom)
 # KNOWN ISSUES #
   - Player may need to drop and grab the mop again, in order to it work when moving between rooms
 
-<<<<<<< Updated upstream
-=======
+
 # CREDITS #
 - BrennFuchS (https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - 3D model of the mop
 - People at MSC Modding Discord for a help with an anti-drop script
 
->>>>>>> Stashed changes
 
 # CONTACT #
 Discord: Athlon#5974
