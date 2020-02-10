@@ -1,11 +1,5 @@
 # Changelog
 
-## RC 1 (tba)
-
-### Added
-
-- Player can now open the doors while holding the mop, without dropping it!
-
 ## Beta 0.3 (10.02.2020)
 
 ### Changes
