@@ -14,7 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 using System.Collections;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -55,6 +58,9 @@ namespace ActualMop
         const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
         byte virtualKey = 0x50;
 
+        FsmState itemPickedState;
+        FsmEvent equipEvent, proceedDropEvent, proceedThrowEvent;
+
         public MopBehaviour()
         {
             // Clone this game object to be used later for in hand object
@@ -63,7 +69,7 @@ namespace ActualMop
             // Initialize the game object
             gameObject.name = "mop(Clone)";
             gameObject.layer = LayerMask.NameToLayer("Parts");
-            gameObject.tag = "PART";
+            gameObject.tag = "ITEM";
             gameObject.transform.parent = null;
 
             // Get this object's renderer
@@ -96,6 +102,13 @@ namespace ActualMop
             mopInHand.transform.localPosition = new Vector3(0.25f, -0.4f, 1);
             mopInHand.transform.localRotation = Quaternion.Euler(-80, -720, -720);
             mopInHand.SetActive(false);
+
+            // Setting up "anti-drop" script
+            itemPickedState = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand")
+                            .GetComponents<PlayMakerFSM>()[0].FsmStates.FirstOrDefault(state => state.Name == "Item picked");
+            equipEvent = (itemPickedState.Actions[5] as GetButtonDown).sendEvent;
+            proceedDropEvent = (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent;
+            proceedThrowEvent = (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent;
         }
 
         public void Initialize(MopSaveData mopSaveData)
@@ -116,7 +129,7 @@ namespace ActualMop
 
             // If is equipped, equip the mop
             if (isEquipped)
-            { 
+            {
                 ToggleCleaningMode(true);
 
                 // Simulate the P key press
@@ -129,7 +142,7 @@ namespace ActualMop
                 pissAreas.FsmVariables.FindFsmFloat("PissRate").Value = -400;
             }
             else
-            { 
+            {
                 ToggleCleaningMode(false);
             }
 
@@ -167,6 +180,12 @@ namespace ActualMop
                 // Enable in hand model and disable this object's renderer
                 mopInHand.SetActive(true);
                 renderer.SetActive(false);
+
+                // This piece of code prevents player from dropping the mop and lets him open doors, etc.
+                (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent = equipEvent;
+                (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent = equipEvent;
+                (itemPickedState.Actions[3] as GetKeyDown).sendEvent = equipEvent;
+                (itemPickedState.Actions[4] as GetKeyDown).sendEvent = equipEvent;
             }
             else
             {
@@ -175,6 +194,12 @@ namespace ActualMop
                 // Disable in hand model and toggle back on this object's renderer
                 mopInHand.SetActive(false);
                 renderer.SetActive(true);
+
+                // Deactivate the previos script
+                (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent = proceedDropEvent;
+                (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent = proceedThrowEvent;
+                (itemPickedState.Actions[3] as GetKeyDown).sendEvent = proceedDropEvent;
+                (itemPickedState.Actions[4] as GetKeyDown).sendEvent = proceedDropEvent;
             }
         }
 
