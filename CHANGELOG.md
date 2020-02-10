@@ -1,5 +1,15 @@
 # Changelog
 
+## Beta 0.3 (10.02.2020)
+
+### Changes
+
+- Player has to hold the mop in hand, in order for it to work (press Use to grab the mop)
+
+### Bug Fixes
+
+- Mop should now always load back where you left it
+
 ## Beta 0.2 (08.02.2020)
 
 ### Added

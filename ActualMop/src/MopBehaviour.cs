@@ -27,6 +27,18 @@ namespace ActualMop
         PlayMakerFSM pissAreas;
         ParticleRenderer pissRenderer;
         Transform itemPivot;
+        Transform hand;
+
+        // Determs if player intends to use the mop
+        bool isEquipped;
+
+        // In hand object
+        GameObject mopInHand;
+
+        GameObject player;
+
+        // This object's renderer
+        GameObject renderer;
 
         float lastUrineValue;
         float lastPissRate;
@@ -45,37 +57,66 @@ namespace ActualMop
 
         public MopBehaviour()
         {
+            // Clone this game object to be used later for in hand object
+            mopInHand = GameObject.Instantiate(this.gameObject);
+
             // Initialize the game object
             gameObject.name = "mop(Clone)";
             gameObject.layer = LayerMask.NameToLayer("Parts");
             gameObject.tag = "PART";
             gameObject.transform.parent = null;
 
+            // Get this object's renderer
+            renderer = transform.Find("node_id4").gameObject;
+
             // Get PissAreas PlayMakerFSM
             pissAreas = GameObject.Find("PissAreas").GetComponent<PlayMakerFSM>();
 
             // Get player's piss particle renderer
-            GameObject playerPiss = GameObject.Find("PLAYER").transform.Find("Pivot/AnimPivot/Camera/FPSCamera/Piss/Fluid/Fluid").gameObject;
+            player = GameObject.Find("PLAYER");
+            GameObject playerPiss = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/Piss/Fluid/Fluid").gameObject;
             pissRenderer = playerPiss.GetComponent<ParticleRenderer>();
 
             // Get item pivot
-            itemPivot = GameObject.Find("PLAYER").transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
+            itemPivot = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
             GetComponent<Rigidbody>().isKinematic = false;
             transform.position = DefaultPosition;
 
+            // Get hand
+            hand = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
+
             virtualKey = HexManager.instance.GetHex();
+
+            // Setting up in hand model
+            // Get rid of Rigidbody and MopBehaviour
+            Object.Destroy(mopInHand.GetComponent<Rigidbody>());
+            Object.Destroy(mopInHand.GetComponent<MopBehaviour>());
+            mopInHand.name = "MopInHand";
+            mopInHand.transform.parent = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera");
+            mopInHand.transform.localPosition = new Vector3(0.25f, -0.4f, 1);
+            mopInHand.transform.localRotation = Quaternion.Euler(-80, -720, -720);
+            mopInHand.SetActive(false);
         }
 
         public void Initialize(MopSaveData mopSaveData)
         {
+            GetComponent<Rigidbody>().isKinematic = true;
             transform.position = mopSaveData.Position;
             transform.rotation = mopSaveData.Rotation;
+            GetComponent<Rigidbody>().isKinematic = false;
         }
 
         void Update()
         {
-            if (transform.parent == itemPivot)
+            // If player holds the object and presses Use button, toggle isEquipped
+            if (transform.parent == itemPivot && cInput.GetButtonDown("Use"))
             {
+                isEquipped ^= true;
+            }
+
+            // If is equipped, equip the mop
+            if (isEquipped)
+            { 
                 ToggleCleaningMode(true);
 
                 // Simulate the P key press
@@ -91,8 +132,19 @@ namespace ActualMop
             { 
                 ToggleCleaningMode(false);
             }
+
+            // Throwing the mop while it's equipped means it will also remove the mop from hand
+            if (transform.parent != itemPivot && isEquipped)
+            {
+                isEquipped = false;
+                ToggleCleaningMode(false);
+            }
         }
 
+        /// <summary>
+        /// Manages the cleaning mode toggling.
+        /// </summary>
+        /// <param name="enabled"></param>
         void ToggleCleaningMode(bool enabled)
         {
             // Ignore if PissRate is already set to < 0 and enabled == true
@@ -111,10 +163,18 @@ namespace ActualMop
                 lastPissRate = pissAreas.FsmVariables.FindFsmFloat("PissRate").Value;
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
                 pissRenderer.enabled = !enabled;
+
+                // Enable in hand model and disable this object's renderer
+                mopInHand.SetActive(true);
+                renderer.SetActive(false);
             }
             else
             {
                 StartCoroutine(DisableRoutine());
+
+                // Disable in hand model and toggle back on this object's renderer
+                mopInHand.SetActive(false);
+                renderer.SetActive(true);
             }
         }
 
