@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Actual Mop=")]
+[assembly: AssemblyTitle("Actual Mop")]
 [assembly: AssemblyDescription("A My Summer Car mod that adds functional mop!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Athlon")]
