@@ -1,9 +1,5 @@
-Added:
-- New mop model thanks to BrennFuchS!
-- Added settings
-  - Added changelog
-  - Added "Reset Mop Position" button
-- Urinating button can now be binded under any key (as long as it's one of the letters, or digit)
-
 Changes:
-- Stain removal rate is now a constant value
+- Player has to hold the mop in hand, in order for it to work (press Use to grab the mop)
+
+Bug Fixes:
+- Mop should now always load back where you left it
