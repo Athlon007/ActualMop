@@ -1,5 +1,5 @@
-Changes:
-- Player has to hold the mop in hand, in order for it to work (press Use to grab the mop)
+Added:
+- Player can now open the doors while holding the mop, without dropping it
 
-Bug Fixes:
-- Mop should now always load back where you left it
+Changes:
+- The key binded to urinating will not be clicked anymore, if you Alt+Tab from the game

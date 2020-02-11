@@ -25,5 +25,10 @@ You can find your mop in the washing machine room (between kitchen and bathroom)
 - BrennFuchS (https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - 3D model of the mop
 
 
+# CREDITS #
+- BrennFuchS (https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - 3D model of the mop
+- People at MSC Modding Discord for a help with an anti-drop script
+
+
 # CONTACT #
 Discord: Athlon#5974

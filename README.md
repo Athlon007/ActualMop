@@ -20,10 +20,6 @@ Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/163), [
 
 You can find your mop in the washing machine room (between kitchen and bathroom).
 
-## Known issues
-
-* Player may need to drop and grab the mop again, in order to it work when moving between rooms
-
 ## License
 
 This program is distributed under GNU General Public License v3. Feel free to use its source code as long as you mention the author and state the changes. You can also modify, share and distribute it, as long as you state changes. For more, see [LICENSE](LICENSE.md) file.
@@ -31,6 +27,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
 ## Credits
 
 - [BrennFuchS](https://www.racedepartment.com/downloads/authors/brennfuchs-yt.257537/) - 3D model of the mop
+- People at MSC Modding Discord for a help with an anti-drop script
 
 ## Support
 
