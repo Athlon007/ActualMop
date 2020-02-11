@@ -1,10 +1,14 @@
 # Changelog
 
-## RC 1 (tba)
+## 1.0 (11.02.2020)
 
 ### Added
 
-- Player can now open the doors while holding the mop, without dropping it!
+- Player can now open the doors while holding the mop, without dropping it
+
+### Changes
+
+- The key binded to urinating will not be clicked anymore, if you Alt+Tab from the game
 
 ## Beta 0.3 (10.02.2020)
 

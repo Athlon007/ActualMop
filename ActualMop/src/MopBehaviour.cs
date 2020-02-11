@@ -61,6 +61,8 @@ namespace ActualMop
         FsmState itemPickedState;
         FsmEvent equipEvent, proceedDropEvent, proceedThrowEvent;
 
+        bool isPaused;
+
         public MopBehaviour()
         {
             // Clone this game object to be used later for in hand object
@@ -134,8 +136,11 @@ namespace ActualMop
 
                 // Simulate the P key press
                 // Player HAS to have pissing button binded to P
-                keybd_event(virtualKey, 0, KEYEVENTF_EXTENDEDKEY, 0);
-                keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
+                if (!isPaused)
+                {
+                    keybd_event(virtualKey, 0, KEYEVENTF_EXTENDEDKEY, 0);
+                    keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
+                }
 
                 // Hold the urine level
                 PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;
@@ -229,6 +234,16 @@ namespace ActualMop
         public MopSaveData GetSaveInfo()
         {
             return new MopSaveData(transform.position, transform.rotation);
+        }
+
+        void OnApplicationFocus(bool hasFocus)
+        {
+            isPaused = !hasFocus;
+        }
+
+        void OnApplicationPause(bool pauseStatus)
+        {
+            isPaused = pauseStatus;
         }
     }
 }
