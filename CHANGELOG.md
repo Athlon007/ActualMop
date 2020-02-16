@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 (16.02.2020)
+
+### Added
+
+- Mop position will reset on new game
+
 ## 1.0 (11.02.2020)
 
 ### Added

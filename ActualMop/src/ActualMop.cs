@@ -24,7 +24,7 @@ namespace ActualMop
         public override string ID => "ActualMop"; //Your mod ID (unique)
         public override string Name => "Actual Mop"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.0"; //Version
+        public override string Version => "1.0.1"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -58,6 +58,12 @@ namespace ActualMop
         public override void OnSave()
         {
             SaveLoad.SerializeSaveFile(this, mop.GetComponent<MopBehaviour>().GetSaveInfo(), "mop.cfg");
+        }
+
+        public override void OnNewGame()
+        {
+            // Delete save data on new game
+            System.IO.File.Delete(ModLoader.GetModConfigFolder(this) + "\\mop.cfg");
         }
 
         // ayy, lmao

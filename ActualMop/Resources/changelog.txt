@@ -1,5 +1,2 @@
 Added:
-- Player can now open the doors while holding the mop, without dropping it
-
-Changes:
-- The key binded to urinating will not be clicked anymore, if you Alt+Tab from the game
+- Mop position will reset on new game
