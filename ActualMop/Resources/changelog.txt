@@ -1,2 +1,5 @@
 Added:
-- Mop position will reset on new game
+- "Use" icon will now appear when mop is in hand
+
+Bug Fixes:
+- Player can't 'clean yourself' with mop

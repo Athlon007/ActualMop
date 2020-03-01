@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.2 (01.03.2020)
+
+### Added
+
+- "Use" icon will now appear when mop is in hand
+
+### Bug Fixes
+
+- Player can't 'clean yourself' with mop
+
 ## 1.0.1 (16.02.2020)
 
 ### Added

@@ -124,9 +124,13 @@ namespace ActualMop
         void Update()
         {
             // If player holds the object and presses Use button, toggle isEquipped
-            if (transform.parent == itemPivot && cInput.GetButtonDown("Use"))
+            if (transform.parent == itemPivot)
             {
-                isEquipped ^= true;
+                if (!isEquipped)
+                    PlayMakerGlobals.Instance.Variables.GetFsmBool("GUIuse").Value = true;
+
+                if (cInput.GetButtonDown("Use"))
+                    isEquipped ^= true;
             }
 
             // If is equipped, equip the mop
@@ -222,7 +226,7 @@ namespace ActualMop
             pissRenderer.enabled = true;
 
             // Remove the dirtiness given by the game for finishing pissing
-            PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerDirtiness").Value -= 5;
+            PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerDirtiness").Value -= 2.5f;
             // Restore last PissRate value
             pissAreas.FsmVariables.FindFsmFloat("PissRate").Value = lastPissRate;
         }
