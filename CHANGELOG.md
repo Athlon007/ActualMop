@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.3 (27.04.2020)
+
+WARNING: With this update mop will respawn at the default position!
+
+### Changes
+
+- Updated for MSC Mod Loader version 1.1.7
+- Improved chnagelog readibility
+- The message for incorrect urinating key will now pop up the console
+- Actual Mop save is now located in MSC save folder
+- Changed the default spawn position
+- Slightly changed the save format (warning: old Actual Mop saves won't work in the current version!)
+
+### Bug Fixes
+
+- Fixed mod not loading for some users, and for others leaving an error in output log
+
 ## 1.0.2 (01.03.2020)
 
 ### Added
@@ -8,7 +25,7 @@
 
 ### Bug Fixes
 
-- Player can't 'clean yourself' with mop
+- Player can't 'clean himself' with mop
 
 ## 1.0.1 (16.02.2020)
 

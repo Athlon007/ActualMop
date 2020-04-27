@@ -92,7 +92,7 @@ namespace ActualMop
             // Return default value (P) if invalid
             if (!IsValidKey(bind))
             {
-                MSCLoader.ModConsole.Print("[Actual Mop] Urinate key has to be binded to letter or a number on the keyboard!");
+                MSCLoader.ModConsole.Error("[Actual Mop] Urinate key has to be binded to letter or a number on the keyboard!");
                 return VK_DEFAULT;
             }
 

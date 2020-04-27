@@ -25,7 +25,8 @@ namespace ActualMop
 {
     class MopBehaviour : MonoBehaviour
     {
-        public static Vector3 DefaultPosition = new Vector3(-13.5f, -0.6f, 2.8f);
+        public static Vector3 DefaultPosition = new Vector3(-13.5f, -0.5f, 3f);
+        public static Vector3 DefaultEuler = new Vector3(341, 91.5f, 359);
 
         PlayMakerFSM pissAreas;
         ParticleRenderer pissRenderer;
@@ -63,7 +64,7 @@ namespace ActualMop
 
         bool isPaused;
 
-        public MopBehaviour()
+        void Start()
         {
             // Clone this game object to be used later for in hand object
             mopInHand = GameObject.Instantiate(this.gameObject);
@@ -88,7 +89,6 @@ namespace ActualMop
             // Get item pivot
             itemPivot = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
             GetComponent<Rigidbody>().isKinematic = false;
-            transform.position = DefaultPosition;
 
             // Get hand
             hand = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
@@ -117,7 +117,7 @@ namespace ActualMop
         {
             GetComponent<Rigidbody>().isKinematic = true;
             transform.position = mopSaveData.Position;
-            transform.rotation = mopSaveData.Rotation;
+            transform.eulerAngles = mopSaveData.Euler;
             GetComponent<Rigidbody>().isKinematic = false;
         }
 
@@ -237,7 +237,7 @@ namespace ActualMop
         /// <returns></returns>
         public MopSaveData GetSaveInfo()
         {
-            return new MopSaveData(transform.position, transform.rotation);
+            return new MopSaveData(transform.position, transform.eulerAngles);
         }
 
         void OnApplicationFocus(bool hasFocus)

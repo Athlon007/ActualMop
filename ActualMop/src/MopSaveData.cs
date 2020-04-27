@@ -21,18 +21,18 @@ namespace ActualMop
     public class MopSaveData
     {
         public Vector3 Position;
-        public Quaternion Rotation;
+        public Vector3 Euler;
 
         public MopSaveData()
         {
             this.Position = MopBehaviour.DefaultPosition;
-            this.Rotation = new Quaternion();
+            this.Euler = MopBehaviour.DefaultEuler;
         }
 
-        public MopSaveData(Vector3 position, Quaternion rotation)
+        public MopSaveData(Vector3 position, Vector3 euler)
         {
             this.Position = position;
-            this.Rotation = rotation;
+            this.Euler = euler;
         }
     }
 }

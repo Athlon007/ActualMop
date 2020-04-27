@@ -24,7 +24,7 @@ namespace ActualMop
         public override string ID => "ActualMop"; //Your mod ID (unique)
         public override string Name => "Actual Mop"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.0.2"; //Version
+        public override string Version => "1.0.3"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -48,7 +48,7 @@ namespace ActualMop
             MopBehaviour behaviour = mop.AddComponent<MopBehaviour>();
 
             // Load save data
-            MopSaveData mopSaveData = SaveLoad.DeserializeSaveFile<MopSaveData>(this, "mop.cfg");
+            MopSaveData mopSaveData = SaveLoad.DeserializeSaveFile<MopSaveData>(this, GetSavePath());
             if (mopSaveData != null)
             {
                 behaviour.Initialize(mopSaveData);
@@ -57,13 +57,14 @@ namespace ActualMop
 
         public override void OnSave()
         {
-            SaveLoad.SerializeSaveFile(this, mop.GetComponent<MopBehaviour>().GetSaveInfo(), "mop.cfg");
+            SaveLoad.SerializeSaveFile(this, mop.GetComponent<MopBehaviour>().GetSaveInfo(), GetSavePath());
         }
 
         public override void OnNewGame()
         {
             // Delete save data on new game
-            System.IO.File.Delete(ModLoader.GetModConfigFolder(this) + "\\mop.cfg");
+            ModConsole.Print("[Actual Mop] Resetting save data.");
+            System.IO.File.Delete(GetSavePath());
         }
 
         // ayy, lmao
@@ -75,9 +76,10 @@ namespace ActualMop
         public override void ModSettings()
         {
             Settings.AddButton(this, resetPosition);
+
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
-            Settings.AddText(this, Properties.Resources.changelog);
+            Settings.AddText(this, GetChangelog());
         }
 
         /// <summary>
@@ -90,8 +92,57 @@ namespace ActualMop
                 GameObject mop = GameObject.Find("mop(Clone)");
                 mop.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 mop.transform.position = MopBehaviour.DefaultPosition;
-                mop.transform.rotation = new Quaternion();
+                mop.transform.eulerAngles = MopBehaviour.DefaultEuler;
             }
+        }
+
+        /// <summary>
+        /// Gets changelog from changelog.txt and adds rich text elements.
+        /// </summary>
+        /// <returns></returns>
+        string GetChangelog()
+        {
+            string[] changelog = Properties.Resources.changelog.Split('\n');
+            string output = "";
+            for (int i = 0; i < changelog.Length; i++)
+            {
+                string line = changelog[i];
+
+                // If line starts with ###, make it look like a header of section.
+                if (line.StartsWith("###"))
+                {
+                    line = line.Replace("###", "");
+                    line = $"<color=yellow><size=24>{line}</size></color>";
+                }
+
+                // Replace - with bullet.
+                if (line.StartsWith("-"))
+                {
+                    line = line.Substring(1);
+                    line = $"• {line}";
+                }
+
+                // Similar to the bullet, but also increase the tab.
+                if (line.StartsWith("  -"))
+                {
+                    line = line.Substring(3);
+                    line = $"    • {line}";
+                }
+
+                if (line.Contains("(Development)"))
+                {
+                    line = line.Replace("(Development)", "<color=orange>Development: </color>");
+                }
+
+                output += line + "\n";
+            }
+
+            return output;
+        }
+
+        string GetSavePath()
+        {
+            return Application.persistentDataPath + "/Mop.cfg";
         }
     }
 }

@@ -85,7 +85,8 @@
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
 copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
-copy "$(TargetDir)$(TargetName).pdb" "C:\Users\aathl\Documents\MySummerCar\Mods\mods"
+copy "$(TargetDir)$(TargetName).pdb" "C:\Users\aathl\Documents\MySummerCar\Mods" /y
+cd "C:\Users\aathl\Documents\MySummerCar\Mods"
 call "C:\Users\aathl\Documents\MySummerCar\Mods\debug.bat"
 ) ELSE (
 copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
