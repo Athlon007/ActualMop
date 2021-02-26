@@ -1,14 +1,16 @@
-WARNING: With this update mop will respawn at the default position!
+WARNING: Position of the mop will be reset!
+
+### Added
+
+- Improved optimization
+  - Note: If you are using Modern Optimiztion Plugin, it may display an error saying "[MOP] Couldn't find world object mop(Clone)" - you can safely ignore it, as well as you can remove the rule file "ActualMop.mopconfig"
 
 ### Changes
 
-- Updated for MSC Mod Loader version 1.1.7
-- Improved chnagelog readibility
-- The message for incorrect urinating key will now pop up the console
-- Actual Mop save is now located in MSC save folder
-- Changed the default spawn position
-- Slightly changed the save format (warning: old Actual Mop saves won't work in the current version!)
+- Ported to Mod Loader Pro
+- The "Urinate" key doesn't have to be binded to the keyboard anymore
+- Mod now also works under Linux
 
 ### Bug Fixes
 
-- Fixed mod not loading for some users, and for others leaving an error in output log
+- Fixed mop clipping under the ground on save load

@@ -1,5 +1,5 @@
 ﻿// Actual Mop
-// Copyright(C) 2020 Athlon
+// Copyright(C) 2020-2021 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

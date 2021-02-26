@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.1 (tba)
+
+WARNING: Position of the mop will be reset!
+
+### Added
+
+- Improved optimization
+  - Note: If you are using Modern Optimiztion Plugin, it may display an error saying "[MOP] Couldn't find world object mop(Clone)" - you can safely ignore it, as well as you can remove the rule file "ActualMop.mopconfig"
+
+### Changes
+
+- Ported to Mod Loader Pro
+- The "Urinate" key doesn't have to be binded to the keyboard anymore
+- Mod now also works under Linux
+
+### Bug Fixes
+
+- Fixed mop clipping under the ground on save load
+
+### Removed
+
+- Removed user32.dll API references, as they are no longer needed
+
 ## 1.0.3 (27.04.2020)
 
 WARNING: With this update mop will respawn at the default position!

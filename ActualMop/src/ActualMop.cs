@@ -1,5 +1,5 @@
 ﻿// Actual Mop
-// Copyright(C) 2020 Athlon
+// Copyright(C) 2020-2021 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,28 +16,27 @@
 
 using MSCLoader;
 using UnityEngine;
-using System.IO;
 
 namespace ActualMop
 {
     public class ActualMop : Mod
     {
         public override string ID => "ActualMop"; //Your mod ID (unique)
-        public override string Name => "Actual Mop"; //You mod name
+        public override string Name => "ACTUAL MOP"; //You mod name
         public override string Author => "Athlon"; //Your Username
         public override string Version => "1.1"; //Version
         public override string UpdateLink => "https://github.com/Athlon007/ActualMop";
+        public override byte[] Icon => Properties.Resources.icon;
 
         // Mop object
         GameObject mop;
 
+        const string SaveFile = "mop.cfg";
+
         // Called once, when mod is loading after game is fully loaded
         public override void OnLoad()
         {
-            new HexManager();
-
             // Load dem assets
-            //AssetBundle ab = LoadAssets.LoadBundle(this, "mop.unity3d");
             AssetBundle ab = ModAssets.LoadBundle(this, "mop.unity3d");
             GameObject originalMop = ab.LoadAsset<GameObject>("mop.prefab");
             mop = GameObject.Instantiate<GameObject>(originalMop);
@@ -47,23 +46,27 @@ namespace ActualMop
             MopBehaviour behaviour = mop.AddComponent<MopBehaviour>();
 
             // Load save data
-            MopSaveData mopSaveData = SaveLoad.DeserializeSaveFile<MopSaveData>(this, GetSavePath());
+            MopSaveData mopSaveData = ModSave.Load<MopSaveData>(SaveFile);
             if (mopSaveData != null)
             {
                 behaviour.Initialize(mopSaveData);
             }
+
+            GameObject actualMopManager = new GameObject("ActualMopManager");
+            MopOptimization optimization = actualMopManager.AddComponent<MopOptimization>();
+            optimization.Initialize(mop.transform);
         }
 
         public override void OnSave()
         {
-            SaveLoad.SerializeSaveFile(this, mop.GetComponent<MopBehaviour>().GetSaveInfo(), GetSavePath());
+            ModSave.Save(SaveFile, mop.GetComponent<MopBehaviour>().GetSaveInfo());
         }
 
         public override void OnNewGame()
         {
             // Delete save data on new game
             ModConsole.Log("[Actual Mop] Resetting save data.");
-            File.Delete(GetSavePath());
+            ModSave.Delete(SaveFile);
         }
 
         public override void ModSettings()
@@ -79,7 +82,7 @@ namespace ActualMop
         /// </summary>
         static void ResetMopPosition()
         {
-            if (Application.loadedLevelName == "GAME")
+            if (ModLoader.CurrentScene == CurrentScene.Game)
             {
                 GameObject mop = GameObject.Find("mop(Clone)");
                 mop.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -130,11 +133,6 @@ namespace ActualMop
             }
 
             return output;
-        }
-
-        string GetSavePath()
-        {
-            return "Mop.cfg";
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// Actual Mop
-// Copyright(C) 2020 Athlon
+// Copyright(C) 2020-2021 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,19 +18,21 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System.Collections;
 using System.Linq;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace ActualMop
 {
     class MopBehaviour : MonoBehaviour
     {
+        bool isLoaded;
+        public bool IsLoaded => isLoaded;
+
         public static Vector3 DefaultPosition = new Vector3(-13.5f, -0.5f, 3f);
         public static Vector3 DefaultEuler = new Vector3(341, 91.5f, 359);
 
         Rigidbody rb;
 
-        PlayMakerFSM pissAreas;
+        PlayMakerFSM pissAreas, pissLogic;
         ParticleRenderer pissRenderer;
         Transform itemPivot;
 
@@ -38,35 +40,22 @@ namespace ActualMop
         bool isEquipped;
 
         // In hand object
-        GameObject mopInHand;
-
-        GameObject player;
+        GameObject mopInHand, player;
 
         // This object's renderer
         GameObject renderer;
 
-        float lastUrineValue;
-        float lastPissRate;
-
-        // Import the user32.dll
-        // We're using keybd_event function in Win32 API to simulate the keyboard click
-        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-keybd_event
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
-
-        // Declare some keyboard keys as constants with its respective code
-        // See Virtual Code Keys: https://msdn.microsoft.com/en-us/library/dd375731(v=vs.85).aspx
-        const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
-        const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
-        byte virtualKey = 0x50;
+        float lastUrineValue, lastPissRate;
 
         FsmState itemPickedState;
         FsmEvent equipEvent, proceedDropEvent, proceedThrowEvent;
 
-        bool isPaused;
+        MopSaveData mopSaveData;
 
         void Start()
         {
+            player = GameObject.Find("PLAYER");
+
             // Clone this game object to be used later for in hand object
             mopInHand = GameObject.Instantiate(this.gameObject);
 
@@ -84,16 +73,15 @@ namespace ActualMop
             // Get PissAreas PlayMakerFSM
             pissAreas = GameObject.Find("PissAreas").GetComponent<PlayMakerFSM>();
 
+            pissLogic = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/Piss").gameObject.GetComponents<PlayMakerFSM>().First(f => f.FsmName == "Logic");
+
             // Get player's piss particle renderer
-            player = GameObject.Find("PLAYER");
             GameObject playerPiss = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/Piss/Fluid/Fluid").gameObject;
             pissRenderer = playerPiss.GetComponent<ParticleRenderer>();
 
             // Get item pivot
             itemPivot = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
             GetComponent<Rigidbody>().isKinematic = false;
-
-            virtualKey = HexManager.instance.GetHex();
 
             // Setting up in hand model
             // Get rid of Rigidbody and MopBehaviour
@@ -119,8 +107,7 @@ namespace ActualMop
 
         public void Initialize(MopSaveData mopSaveData)
         {
-            transform.position = mopSaveData.Position;
-            transform.eulerAngles = mopSaveData.Euler;
+            this.mopSaveData = mopSaveData;
         }
 
         void InitializationWait()
@@ -132,7 +119,11 @@ namespace ActualMop
         {
             rb.isKinematic = false;
             yield return new WaitForSeconds(2);
+            transform.position = mopSaveData.Position;
+            transform.eulerAngles = mopSaveData.Euler;
             rb.isKinematic = true;
+
+            isLoaded = true;
         }
 
         void Update()
@@ -152,13 +143,7 @@ namespace ActualMop
             {
                 ToggleCleaningMode(true);
 
-                // Simulate the P key press
-                // Player HAS to have pissing button binded to P
-                if (!isPaused)
-                {
-                    keybd_event(virtualKey, 0, KEYEVENTF_EXTENDEDKEY, 0);
-                    keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
-                }
+                pissLogic.SendEvent("FINISHED");
 
                 // Hold the urine level
                 PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;
@@ -194,7 +179,6 @@ namespace ActualMop
             if (enabled)
             {
                 // Get current key binded to urinating
-                virtualKey = HexManager.instance.GetHex();
 
                 lastPissRate = pissAreas.FsmVariables.FindFsmFloat("PissRate").Value;
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
@@ -251,16 +235,6 @@ namespace ActualMop
         public MopSaveData GetSaveInfo()
         {
             return new MopSaveData(transform.position, transform.eulerAngles);
-        }
-
-        void OnApplicationFocus(bool hasFocus)
-        {
-            isPaused = !hasFocus;
-        }
-
-        void OnApplicationPause(bool pauseStatus)
-        {
-            isPaused = pauseStatus;
         }
     }
 }
