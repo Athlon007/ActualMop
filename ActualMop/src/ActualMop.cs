@@ -16,6 +16,7 @@
 
 using MSCLoader;
 using UnityEngine;
+using System.IO;
 
 namespace ActualMop
 {
@@ -24,11 +25,8 @@ namespace ActualMop
         public override string ID => "ActualMop"; //Your mod ID (unique)
         public override string Name => "Actual Mop"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.0.3"; //Version
-
-        // Set this to true if you will be load custom assets from Assets folder.
-        // This will create subfolder in Assets folder for your mod.
-        public override bool UseAssetsFolder => true;
+        public override string Version => "1.1"; //Version
+        public override string UpdateLink => "https://github.com/Athlon007/ActualMop";
 
         // Mop object
         GameObject mop;
@@ -39,7 +37,8 @@ namespace ActualMop
             new HexManager();
 
             // Load dem assets
-            AssetBundle ab = LoadAssets.LoadBundle(this, "mop.unity3d");
+            //AssetBundle ab = LoadAssets.LoadBundle(this, "mop.unity3d");
+            AssetBundle ab = ModAssets.LoadBundle(this, "mop.unity3d");
             GameObject originalMop = ab.LoadAsset<GameObject>("mop.prefab");
             mop = GameObject.Instantiate<GameObject>(originalMop);
             ab.Unload(false);
@@ -63,23 +62,16 @@ namespace ActualMop
         public override void OnNewGame()
         {
             // Delete save data on new game
-            ModConsole.Print("[Actual Mop] Resetting save data.");
-            System.IO.File.Delete(GetSavePath());
+            ModConsole.Log("[Actual Mop] Resetting save data.");
+            File.Delete(GetSavePath());
         }
-
-        // ayy, lmao
-        Settings resetPosition = new Settings("resetMopPosition", "Reset Mop Positon", ResetMopPosition);
-
-        // Default header color
-        readonly Color32 headerColor = new Color32(7, 142, 181, 255);
 
         public override void ModSettings()
         {
-            Settings.AddButton(this, resetPosition);
+            modSettings.AddButton("resetMopPosition", "RESET MOP POSITION", ResetMopPosition);
 
-            // Changelog
-            Settings.AddHeader(this, "Changelog", headerColor);
-            Settings.AddText(this, GetChangelog());
+            modSettings.AddHeader("CHANGELOG");
+            modSettings.AddText(GetChangelog());
         }
 
         /// <summary>
@@ -142,7 +134,7 @@ namespace ActualMop
 
         string GetSavePath()
         {
-            return Application.persistentDataPath + "/Mop.cfg";
+            return "Mop.cfg";
         }
     }
 }

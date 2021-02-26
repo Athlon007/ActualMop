@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using MSCLoader;
 
 namespace ActualMop
 {
@@ -92,7 +93,7 @@ namespace ActualMop
             // Return default value (P) if invalid
             if (!IsValidKey(bind))
             {
-                MSCLoader.ModConsole.Error("[Actual Mop] Urinate key has to be binded to letter or a number on the keyboard!");
+                ModConsole.LogError("[Actual Mop] Urinate key has to be binded to letter or a number on the keyboard!");
                 return VK_DEFAULT;
             }
 

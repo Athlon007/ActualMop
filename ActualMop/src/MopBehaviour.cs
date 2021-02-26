@@ -28,10 +28,11 @@ namespace ActualMop
         public static Vector3 DefaultPosition = new Vector3(-13.5f, -0.5f, 3f);
         public static Vector3 DefaultEuler = new Vector3(341, 91.5f, 359);
 
+        Rigidbody rb;
+
         PlayMakerFSM pissAreas;
         ParticleRenderer pissRenderer;
         Transform itemPivot;
-        Transform hand;
 
         // Determs if player intends to use the mop
         bool isEquipped;
@@ -69,6 +70,8 @@ namespace ActualMop
             // Clone this game object to be used later for in hand object
             mopInHand = GameObject.Instantiate(this.gameObject);
 
+            rb = GetComponent<Rigidbody>();
+
             // Initialize the game object
             gameObject.name = "mop(Clone)";
             gameObject.layer = LayerMask.NameToLayer("Parts");
@@ -90,9 +93,6 @@ namespace ActualMop
             itemPivot = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/ItemPivot");
             GetComponent<Rigidbody>().isKinematic = false;
 
-            // Get hand
-            hand = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
-
             virtualKey = HexManager.instance.GetHex();
 
             // Setting up in hand model
@@ -111,14 +111,28 @@ namespace ActualMop
             equipEvent = (itemPickedState.Actions[5] as GetButtonDown).sendEvent;
             proceedDropEvent = (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent;
             proceedThrowEvent = (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent;
+
+            InitializationWait();
+            transform.position = DefaultPosition;
+            transform.eulerAngles = DefaultEuler;
         }
 
         public void Initialize(MopSaveData mopSaveData)
         {
-            GetComponent<Rigidbody>().isKinematic = true;
             transform.position = mopSaveData.Position;
             transform.eulerAngles = mopSaveData.Euler;
-            GetComponent<Rigidbody>().isKinematic = false;
+        }
+
+        void InitializationWait()
+        {
+            StartCoroutine(WaitRoutine());
+        }
+
+        IEnumerator WaitRoutine()
+        {
+            rb.isKinematic = false;
+            yield return new WaitForSeconds(2);
+            rb.isKinematic = true;
         }
 
         void Update()
@@ -217,7 +231,6 @@ namespace ActualMop
         /// Sets the PlayerUrine value to 0, so the player stops pissing, waits a single frame,
         /// then resets PlayerUrine to lastUrineValue, and reenables pissRenderer
         /// </summary>
-        /// <returns></returns>
         IEnumerator DisableRoutine()
         {
             PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = 0;
