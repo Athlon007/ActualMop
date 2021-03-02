@@ -47,10 +47,20 @@ namespace ActualMop
 
         float lastUrineValue, lastPissRate;
 
+        // FSM
         FsmState itemPickedState;
         FsmEvent equipEvent, proceedDropEvent, proceedThrowEvent;
 
         MopSaveData mopSaveData;
+
+        // SFX
+        AudioSource waterSplashFloor;
+
+        // Animation
+        const float MopAnimationMin = 0.7f;
+        const float MopAnimationMax = 1.3f;
+        const float MopAnimationSpeed = 2f;
+        bool moveUp;
 
         void Start()
         {
@@ -96,9 +106,11 @@ namespace ActualMop
             // Setting up "anti-drop" script
             itemPickedState = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand")
                             .GetComponents<PlayMakerFSM>()[0].FsmStates.FirstOrDefault(state => state.Name == "Item picked");
-            equipEvent = (itemPickedState.Actions[5] as GetButtonDown).sendEvent;
+            equipEvent = (itemPickedState.Actions[4] as GetButtonDown).sendEvent;
             proceedDropEvent = (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent;
             proceedThrowEvent = (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent;
+
+            waterSplashFloor = GameObject.Find("MasterAudio/HouseFoley/water_splash_floor").GetComponent<AudioSource>();
 
             InitializationWait();
             transform.position = DefaultPosition;
@@ -148,6 +160,9 @@ namespace ActualMop
                 // Hold the urine level
                 PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value = lastUrineValue <= 0 ? 1 : lastUrineValue;
                 pissAreas.FsmVariables.FindFsmFloat("PissRate").Value = -400;
+
+                PlaySound();
+                waterSplashFloor.transform.position = player.transform.position;
             }
             else
             {
@@ -178,7 +193,7 @@ namespace ActualMop
 
             if (enabled)
             {
-                // Get current key binded to urinating
+                StartCoroutine(Animation());
 
                 lastPissRate = pissAreas.FsmVariables.FindFsmFloat("PissRate").Value;
                 lastUrineValue = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerUrine").Value;
@@ -191,12 +206,10 @@ namespace ActualMop
                 // This piece of code prevents player from dropping the mop and lets him open doors, etc.
                 (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent = equipEvent;
                 (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent = equipEvent;
-                (itemPickedState.Actions[3] as GetKeyDown).sendEvent = equipEvent;
-                (itemPickedState.Actions[4] as GetKeyDown).sendEvent = equipEvent;
             }
             else
             {
-                StartCoroutine(DisableRoutine());
+                StartCoroutine(DisableRoutine());   
 
                 // Disable in hand model and toggle back on this object's renderer
                 mopInHand.SetActive(false);
@@ -205,8 +218,7 @@ namespace ActualMop
                 // Deactivate the previos script
                 (itemPickedState.Actions[1] as GetMouseButtonDown).sendEvent = proceedDropEvent;
                 (itemPickedState.Actions[2] as GetMouseButtonDown).sendEvent = proceedThrowEvent;
-                (itemPickedState.Actions[3] as GetKeyDown).sendEvent = proceedDropEvent;
-                (itemPickedState.Actions[4] as GetKeyDown).sendEvent = proceedDropEvent;
+                StopSound();
             }
         }
 
@@ -235,6 +247,47 @@ namespace ActualMop
         public MopSaveData GetSaveInfo()
         {
             return new MopSaveData(transform.position, transform.eulerAngles);
+        }
+
+        void PlaySound()
+        {
+            if (!waterSplashFloor.isPlaying)
+            {
+                waterSplashFloor.pitch = Random.Range(0.5f, 1.5f);
+                waterSplashFloor.Play();
+            }
+        }
+
+        void StopSound()
+        {
+            waterSplashFloor.pitch = 1;
+            waterSplashFloor.Stop();
+        }
+
+        IEnumerator Animation()
+        {
+            while (isEquipped)
+            {
+                yield return null;
+                Vector3 pos = mopInHand.transform.localPosition;
+                pos.z = moveUp ? MopAnimationMax : MopAnimationMin;
+                mopInHand.transform.localPosition = Vector3.Lerp(mopInHand.transform.localPosition, pos, Time.deltaTime * MopAnimationSpeed);
+
+                if (!moveUp)
+                {
+                    if (mopInHand.transform.localPosition.z < MopAnimationMin + 0.1f)
+                    {
+                        moveUp = true;
+                    }
+                }
+                else
+                {
+                    if (mopInHand.transform.localPosition.z > MopAnimationMax - 0.1f)
+                    {
+                        moveUp = false;
+                    }
+                }
+            }
         }
     }
 }

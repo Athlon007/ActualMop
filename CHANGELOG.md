@@ -8,6 +8,8 @@ WARNING: Position of the mop will be reset!
 
 - Improved optimization
   - Note: If you are using Modern Optimiztion Plugin, it may display an error saying "[MOP] Couldn't find world object mop(Clone)" - you can safely ignore it, as well as you can remove the rule file "ActualMop.mopconfig"
+- Added sound effect while cleaning the floor
+- Added animation while mopping
 
 ### Changes
 

@@ -31,7 +31,7 @@ namespace ActualMop
         // Mop object
         GameObject mop;
 
-        const string SaveFile = "mop.cfg";
+        const string SaveFile = "mop";
 
         // Called once, when mod is loading after game is fully loaded
         public override void OnLoad()
