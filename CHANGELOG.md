@@ -20,6 +20,7 @@ WARNING: Position of the mop will be reset!
 ### Bug Fixes
 
 - Fixed mop clipping under the ground on save load
+- You can finally place the mop inside of vehicle, without wrecking it
 
 ### Removed
 

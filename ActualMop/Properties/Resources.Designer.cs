@@ -61,20 +61,22 @@ namespace ActualMop.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WARNING: With this update mop will respawn at the default position!
+        ///   Looks up a localized string similar to WARNING: Position of the mop will be reset!
+        ///
+        ///### Added
+        ///
+        ///- Improved optimization
+        ///  - Note: If you are using Modern Optimiztion Plugin, it may display an error saying &quot;[MOP] Couldn&apos;t find world object mop(Clone)&quot; - you can safely ignore it, as well as you can remove the rule file &quot;ActualMop.mopconfig&quot;
         ///
         ///### Changes
         ///
-        ///- Updated for MSC Mod Loader version 1.1.7
-        ///- Improved chnagelog readibility
-        ///- The message for incorrect urinating key will now pop up the console
-        ///- Actual Mop save is now located in MSC save folder
-        ///- Changed the default spawn position
-        ///- Slightly changed the save format (warning: old Actual Mop saves won&apos;t work in the current version!)
+        ///- Ported to Mod Loader Pro
+        ///- The &quot;Urinate&quot; key doesn&apos;t have to be binded to the keyboard anymore
+        ///- Mod now also works under Linux
         ///
         ///### Bug Fixes
         ///
-        ///- Fixed mod not loading for some users, and for others leaving a [rest of string was truncated]&quot;;.
+        ///- Fixed mop clipping under the groun [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -88,6 +90,16 @@ namespace ActualMop.Properties {
         internal static byte[] icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] mop {
+            get {
+                object obj = ResourceManager.GetObject("mop", resourceCulture);
                 return ((byte[])(obj));
             }
         }

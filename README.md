@@ -11,7 +11,7 @@ Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains
 ## Requirements
 
 - My Summer Car (newest release)
-- [MSC Mod Loader 1.1.7](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
+- [MSC Mod Loader Pro 1.0]()
 
 ## Installation
 

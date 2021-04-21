@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using MSCLoader.Helper;
 using UnityEngine;
 
 namespace ActualMop
@@ -37,7 +38,7 @@ namespace ActualMop
         public override void OnLoad()
         {
             // Load dem assets
-            AssetBundle ab = ModAssets.LoadBundle(this, "mop.unity3d");
+            AssetBundle ab = ModAssets.LoadBundle(Properties.Resources.mop);
             GameObject originalMop = ab.LoadAsset<GameObject>("mop.prefab");
             mop = GameObject.Instantiate<GameObject>(originalMop);
             ab.Unload(false);
@@ -72,7 +73,13 @@ namespace ActualMop
         public override void ModSettings()
         {
             modSettings.AddButton("resetMopPosition", "RESET MOP POSITION", ResetMopPosition);
-
+            
+            modSettings.AddSpacer(5);
+            modSettings.AddHeader("LINKS");
+            modSettings.AddButton("paypal", "HOMEPAGE", () => ModHelper.OpenWebsite("http://athlon.kkmr.pl"));
+            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ModHelper.OpenWebsite("https://www.paypal.com/paypalme/figurakonrad"));
+            
+            modSettings.AddSpacer(5);
             modSettings.AddHeader("CHANGELOG");
             modSettings.AddText(GetChangelog());
         }

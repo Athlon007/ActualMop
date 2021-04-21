@@ -112,14 +112,29 @@ namespace ActualMop
 
             waterSplashFloor = GameObject.Find("MasterAudio/HouseFoley/water_splash_floor").GetComponent<AudioSource>();
 
+            transform.Find("node_id4").gameObject.layer = LayerMask.NameToLayer("HingedObjects");
+            transform.Find("node_id4/node_id4 1").gameObject.layer = LayerMask.NameToLayer("HingedObjects");
+
             InitializationWait();
-            transform.position = DefaultPosition;
-            transform.eulerAngles = DefaultEuler;
+
+            if (mopSaveData != null)
+            {
+                transform.position = mopSaveData.Position;
+                transform.eulerAngles = mopSaveData.Euler;
+            }
+            else
+            {
+                transform.position = DefaultPosition;
+                transform.eulerAngles = DefaultEuler;
+            }
+            rb.velocity = Vector3.zero;
         }
 
         public void Initialize(MopSaveData mopSaveData)
         {
             this.mopSaveData = mopSaveData;
+            transform.position = mopSaveData.Position;
+            transform.eulerAngles = mopSaveData.Euler;
         }
 
         void InitializationWait()
