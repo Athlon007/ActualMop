@@ -1,4 +1,5 @@
 WARNING: Position of the mop will be reset!
+Mod Loader Pro is now required to run this mod.
 
 ### Added
 

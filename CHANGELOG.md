@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.1 (tba)
+## 1.1 (30.04.2021)
 
 WARNING: Position of the mop will be reset!
+Mod Loader Pro is now required to run this mod.
 
 ### Added
 
