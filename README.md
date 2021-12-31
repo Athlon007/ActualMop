@@ -1,7 +1,7 @@
 # Actual Mop
 
-[![](https://img.shields.io/github/downloads/Athlon007/ActualMop/total?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
-[![](https://img.shields.io/github/v/release/Athlon007/ActualMop?include_prereleases&label=Development&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/downloads/Athlon007/ActualMop/total?style=for-the-badge)](https://github.com/Athlon007/ActualMop/releases)
+[![](https://img.shields.io/github/v/release/Athlon007/ActualMop?include_prereleases&label=Development&style=for-the-badge)](https://github.com/Athlon007/ActualMop/releases)
 [![](https://img.shields.io/github/license/Athlon007/ActualMop?style=for-the-badge)](LICENSE.md)
 
 <img align="right" src="Media/images/icon_transparent.png" alt="icon" width=128 />
@@ -11,7 +11,7 @@ Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains
 ## Requirements
 
 - My Summer Car (newest release)
-- [MSC Mod Loader Pro 1.0](https://www.nexusmods.com/mysummercar/mods/677)
+- [MSCLoader](https://www.nexusmods.com/mysummercar/mods/147)
 
 ## Installation
 

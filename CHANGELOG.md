@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2 ()
+
+WARNING: Position of the mop will be reset!
+MSCLoader is now required to run this mod.
+
+### Changes
+
+- Ported (back) to MSCLoader
+
 ## 1.1 (30.04.2021)
 
 WARNING: Position of the mop will be reset!

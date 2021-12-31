@@ -15,8 +15,9 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using MSCLoader.Helper;
 using UnityEngine;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace ActualMop
 {
@@ -25,20 +26,21 @@ namespace ActualMop
         public override string ID => "ActualMop"; //Your mod ID (unique)
         public override string Name => "ACTUAL MOP"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.1"; //Version
-        public override string UpdateLink => "https://github.com/Athlon007/ActualMop";
+        public override string Version => "1.2"; //Version
+        public override string Description => "Mod that adds a functional mop!";
         public override byte[] Icon => Properties.Resources.icon;
 
         // Mop object
         GameObject mop;
 
-        const string SaveFile = "mop";
+        const string SaveFileName = "ActualMop.json";
+        string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
 
         // Called once, when mod is loading after game is fully loaded
         public override void OnLoad()
         {
             // Load dem assets
-            AssetBundle ab = ModAssets.LoadBundle(Properties.Resources.mop);
+            AssetBundle ab = LoadAssets.LoadBundle(Properties.Resources.mop);
             GameObject originalMop = ab.LoadAsset<GameObject>("mop.prefab");
             mop = GameObject.Instantiate<GameObject>(originalMop);
             ab.Unload(false);
@@ -47,7 +49,7 @@ namespace ActualMop
             MopBehaviour behaviour = mop.AddComponent<MopBehaviour>();
 
             // Load save data
-            MopSaveData mopSaveData = ModSave.Load<MopSaveData>(SaveFile);
+            MopSaveData mopSaveData = Load();
             if (mopSaveData != null)
             {
                 behaviour.Initialize(mopSaveData);
@@ -60,28 +62,26 @@ namespace ActualMop
 
         public override void OnSave()
         {
-            ModSave.Save(SaveFile, mop.GetComponent<MopBehaviour>().GetSaveInfo());
+            Save();
         }
 
         public override void OnNewGame()
         {
             // Delete save data on new game
             ModConsole.Log("[Actual Mop] Resetting save data.");
-            ModSave.Delete(SaveFile);
+            Delete();
         }
 
         public override void ModSettings()
         {
-            modSettings.AddButton("resetMopPosition", "RESET MOP POSITION", ResetMopPosition);
+            Settings.AddButton(this, "resetMopPosition", "RESET MOP POSITION", ResetMopPosition);
             
-            modSettings.AddSpacer(5);
-            modSettings.AddHeader("LINKS");
-            modSettings.AddButton("paypal", "HOMEPAGE", () => ModHelper.OpenWebsite("http://athlon.kkmr.pl"));
-            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ModHelper.OpenWebsite("https://www.paypal.com/paypalme/figurakonrad"));
-            
-            modSettings.AddSpacer(5);
-            modSettings.AddHeader("CHANGELOG");
-            modSettings.AddText(GetChangelog());
+            Settings.AddHeader(this, "LINKS");
+            Settings.AddButton(this, "paypal", "HOMEPAGE", () => System.Diagnostics.Process.Start("http://athlon.kkmr.pl"));
+            Settings.AddButton(this, "linkDonate", "DONATE", () => System.Diagnostics.Process.Start("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
+
+            Settings.AddHeader(this, "CHANGELOG");
+            Settings.AddText(this, GetChangelog());
         }
 
         /// <summary>
@@ -140,6 +140,42 @@ namespace ActualMop
             }
 
             return output;
+        }
+
+        void Save()
+        {
+            if (mop == null)
+            {
+                ModConsole.LogError("[Actual Mop] Mop object does not exist.");
+                return;
+            }
+            string json = JsonConvert.SerializeObject(mop.GetComponent<MopBehaviour>().GetSaveInfo());
+            StreamWriter writer = new StreamWriter(SaveFilePath);
+            writer.Write(json);
+            writer.Close();
+        }
+
+        MopSaveData Load()
+        {
+            if (!File.Exists(SaveFilePath))
+            {
+                return new MopSaveData();
+            }
+
+            StreamReader reader = new StreamReader(SaveFilePath);
+            string json = reader.ReadToEnd();
+            reader.Close();
+
+            MopSaveData data = JsonConvert.DeserializeObject<MopSaveData>(json);
+            return data;
+        }
+
+        void Delete()
+        {
+            if (File.Exists(SaveFilePath))
+            {
+                File.Delete(SaveFilePath);
+            }
         }
     }
 }
