@@ -27,7 +27,7 @@ namespace ActualMop
         public override string Name => "ACTUAL MOP"; //You mod name
         public override string Author => "Athlon"; //Your Username
         public override string Version => "1.2"; //Version
-        public override string Description => "Mod that adds a functional mop!";
+        public override string Description => "Mod that adds a functional mop! Now you can clean up whatever mess you have left.";
         public override byte[] Icon => Properties.Resources.icon;
 
         // Mop object
