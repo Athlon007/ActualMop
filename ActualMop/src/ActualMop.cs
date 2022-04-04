@@ -1,5 +1,5 @@
 ﻿// Actual Mop
-// Copyright(C) 2020-2021 Athlon
+// Copyright(C) 2020-2022 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,11 @@ namespace ActualMop
         public override void OnLoad()
         {
             // Load dem assets
+#if PRO
+            AssetBundle ab = ModAssets.LoadBundle(Properties.Resources.mop);
+#else
             AssetBundle ab = LoadAssets.LoadBundle(Properties.Resources.mop);
+#endif
             GameObject originalMop = ab.LoadAsset<GameObject>("mop.prefab");
             mop = GameObject.Instantiate<GameObject>(originalMop);
             ab.Unload(false);
@@ -73,7 +77,7 @@ namespace ActualMop
         }
 
         public override void ModSettings()
-        {
+        { 
             Settings.AddButton(this, "resetMopPosition", "RESET MOP POSITION", ResetMopPosition);
             
             Settings.AddHeader(this, "LINKS");

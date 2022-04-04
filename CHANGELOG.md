@@ -1,13 +1,20 @@
 # Changelog
 
-## 1.2 ()
+## 1.2 (04.04.2022)
 
 WARNING: Position of the mop will be reset!
-MSCLoader is now required to run this mod.
+
+### Added
+
+- Added a version for MSCLoader
 
 ### Changes
 
-- Ported (back) to MSCLoader
+- Actual Mop settings are now saved into .JSON file
+
+### Bug Fixes
+
+- Fixed an error happening during game save
 
 ## 1.1 (30.04.2021)
 

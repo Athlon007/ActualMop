@@ -1,5 +1,5 @@
 ﻿// Actual Mop
-// Copyright(C) 2020-2021 Athlon
+// Copyright(C) 2020-2022 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ namespace ActualMop
             gameObject.transform.parent = null;
 
             // Get this object's renderer
-            renderer = transform.Find("node_id4").gameObject;
+            renderer = transform.Find("node_id4").gameObject;           
 
             // Get PissAreas PlayMakerFSM
             pissAreas = GameObject.Find("PissAreas").GetComponent<PlayMakerFSM>();
@@ -95,8 +95,8 @@ namespace ActualMop
 
             // Setting up in hand model
             // Get rid of Rigidbody and MopBehaviour
-            Object.Destroy(mopInHand.GetComponent<Rigidbody>());
-            Object.Destroy(mopInHand.GetComponent<MopBehaviour>());
+            UnityEngine.Object.Destroy(mopInHand.GetComponent<Rigidbody>());
+            UnityEngine.Object.Destroy(mopInHand.GetComponent<MopBehaviour>());
             mopInHand.name = "MopInHand";
             mopInHand.transform.parent = player.transform.Find("Pivot/AnimPivot/Camera/FPSCamera");
             mopInHand.transform.localPosition = new Vector3(0.25f, -0.4f, 1);
@@ -112,15 +112,17 @@ namespace ActualMop
 
             waterSplashFloor = GameObject.Find("MasterAudio/HouseFoley/water_splash_floor").GetComponent<AudioSource>();
 
-            transform.Find("node_id4").gameObject.layer = LayerMask.NameToLayer("HingedObjects");
-            transform.Find("node_id4/node_id4 1").gameObject.layer = LayerMask.NameToLayer("HingedObjects");
+            //transform.Find("node_id4").gameObject.layer = LayerMask.NameToLayer("HingedObjects");
+            //transform.Find("node_id4/node_id4 1").gameObject.layer = LayerMask.NameToLayer("HingedObjects");
+            transform.Find("node_id4").GetComponent<MeshCollider>().enabled = false;
+            //transform.Find("node_id4/node_id4 1").GetComponent<MeshCollider>().enabled = false;
 
             InitializationWait();
 
             if (mopSaveData != null)
             {
-                transform.position = mopSaveData.Position;
-                transform.eulerAngles = mopSaveData.Euler;
+                transform.position = mopSaveData.Position();
+                transform.eulerAngles = mopSaveData.Euler();
             }
             else
             {
@@ -133,8 +135,8 @@ namespace ActualMop
         public void Initialize(MopSaveData mopSaveData)
         {
             this.mopSaveData = mopSaveData;
-            transform.position = mopSaveData.Position;
-            transform.eulerAngles = mopSaveData.Euler;
+            transform.position = mopSaveData.Position();
+            transform.eulerAngles = mopSaveData.Euler();
         }
 
         void InitializationWait()
@@ -146,8 +148,8 @@ namespace ActualMop
         {
             rb.isKinematic = false;
             yield return new WaitForSeconds(2);
-            transform.position = mopSaveData.Position;
-            transform.eulerAngles = mopSaveData.Euler;
+            transform.position = mopSaveData.Position();
+            transform.eulerAngles = mopSaveData.Euler();
             rb.isKinematic = true;
 
             isLoaded = true;
@@ -268,7 +270,7 @@ namespace ActualMop
         {
             if (!waterSplashFloor.isPlaying)
             {
-                waterSplashFloor.pitch = Random.Range(0.5f, 1.5f);
+                waterSplashFloor.pitch = UnityEngine.Random.Range(0.5f, 1.5f);
                 waterSplashFloor.Play();
             }
         }

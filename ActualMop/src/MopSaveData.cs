@@ -1,5 +1,5 @@
 ﻿// Actual Mop
-// Copyright(C) 2020-2021 Athlon
+// Copyright(C) 2020-2022 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,19 +20,34 @@ namespace ActualMop
 {
     public class MopSaveData
     {
-        public Vector3 Position;
-        public Vector3 Euler;
+        //public Vector3 Position;
+        //public Vector3 Euler;
+
+        public float PosX, PosY, PosZ, RotX, RotY, RotZ;
 
         public MopSaveData()
         {
-            this.Position = MopBehaviour.DefaultPosition;
-            this.Euler = MopBehaviour.DefaultEuler;
+            PosX = MopBehaviour.DefaultPosition.x;
+            PosY = MopBehaviour.DefaultPosition.y;
+            PosZ = MopBehaviour.DefaultPosition.z;
+
+            RotX = MopBehaviour.DefaultEuler.x;
+            RotY = MopBehaviour.DefaultEuler.y;
+            RotZ = MopBehaviour.DefaultEuler.z;
         }
 
         public MopSaveData(Vector3 position, Vector3 euler)
         {
-            this.Position = position;
-            this.Euler = euler;
+            PosX = position.x;
+            PosY = position.y;
+            PosZ = position.z;
+
+            RotX= euler.x;
+            RotY = euler.y;
+            RotZ = euler.z;
         }
+
+        public Vector3 Position() { return new Vector3(PosX, PosY, PosZ); }
+        public Vector3 Euler() { return new Vector3(RotX, RotY, RotZ); }
     }
 }

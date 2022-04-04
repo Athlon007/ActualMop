@@ -1,6 +1,13 @@
 WARNING: Position of the mop will be reset!
-MSCLoader is now required to run this mod.
+
+### Added
+
+- Added a version for MSCLoader
 
 ### Changes
 
-- Ported (back) to MSCLoader
+- Mod settings are now saved into .JSON file
+
+### Bug Fixes
+
+- Fixed an error happening during game save

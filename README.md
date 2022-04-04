@@ -11,7 +11,7 @@ Actual Mop adds a... Mop to My Summer Car, which lets you clean the urine stains
 ## Requirements
 
 - My Summer Car (newest release)
-- [MSCLoader](https://www.nexusmods.com/mysummercar/mods/147)
+- [MSCLoader](https://www.nexusmods.com/mysummercar/mods/147) or [Mod Loader Pro](https://www.nexusmods.com/mysummercar/mods/677)
 
 ## Installation
 
@@ -30,7 +30,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
 
 ## Support
 
-Like this mod? Consider buying me a beer :)
+Like this mod? Consider buying me a pizza :)
 
 [PayPal](https://www.paypal.me/figurakonrad)
 
